@@ -173,10 +173,10 @@ def run_seed(db: Session) -> dict:
         today = date.today()
         td_count = 0
         rng = random.Random(42)
-        traffic_data_list = []
         for c in ALL_18_ZONE_CORRIDORS:
+            traffic_data_list = []
             td_map = {"high": (5, 3), "medium": (3, 2), "low": (1, 1)}
-            pax_base, goods_base = td_map[c["traffic_density"]]
+            pax_base, goods_base = td_map[c.get("traffic_density", "medium")]
             for day_offset in range(7):
                 d = today - timedelta(days=day_offset)
                 for h in range(24):
@@ -192,7 +192,8 @@ def run_seed(db: Session) -> dict:
                         total_trains=pax + goods,
                     ))
                     td_count += 1
-        db.bulk_save_objects(traffic_data_list)
+            db.bulk_save_objects(traffic_data_list)
+            db.commit() # Commit per corridor to prevent 500 errors on Render
         counts["traffic_data"] = td_count
 
         # Train timetable: 21 trains per corridor (night-heavy freight & express + sparse day)
@@ -257,6 +258,8 @@ def run_seed(db: Session) -> dict:
                         import_batch_id="DATA.GOV.IN-BATCH-01",
                     ))
                     task_count += 1
+                    if task_count % 100 == 0:
+                        db.commit() # Prevent memory issues
         else:
             rng = random.Random(42)
             today = date.today()
