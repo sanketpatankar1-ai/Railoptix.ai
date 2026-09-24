@@ -98,6 +98,8 @@ app.include_router(reports_router,    prefix=f"{API_PREFIX}/reports")
 app.include_router(alerts_router,     prefix=f"{API_PREFIX}/alerts")
 app.include_router(assistant_router,  prefix=f"{API_PREFIX}/assistant")
 app.include_router(ingest_router,     prefix=f"{API_PREFIX}/ingest")
+app.include_router(debug.router, prefix=f"{API_PREFIX}")
+
 
 
 @app.get("/health")
