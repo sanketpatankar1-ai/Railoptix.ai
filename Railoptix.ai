@@ -1,0 +1,5 @@
+#!/bin/bash
+# Render workaround script. 
+# This catches the dashboard error where "Railoptix.ai" was set as the Start Command.
+echo "Intercepted 'Railoptix.ai' command. Starting the FastAPI server natively..."
+uvicorn backend.main:app --host 0.0.0.0 --port ${PORT:-8000}
