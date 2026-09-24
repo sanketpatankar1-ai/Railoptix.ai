@@ -86,6 +86,8 @@ from backend.api.reports import router as reports_router
 from backend.api.alerts import router as alerts_router
 from backend.api.assistant import router as assistant_router
 from backend.api.ingest import router as ingest_router
+from backend.api import debug
+
 
 API_PREFIX = "/api"
 
