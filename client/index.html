@@ -1,0 +1,36 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <link rel="icon" type="image/png" href="/favicon.png" />
+    <link rel="apple-touch-icon" href="/favicon.png" />
+    <meta id="viewport-meta" name="viewport" content="width=1400, initial-scale=0.25, minimum-scale=0.1, maximum-scale=3.0, user-scalable=yes" />
+    <script>
+      (function() {
+        try {
+          var targetWidth = 1400;
+          var screenW = window.screen.width || 360;
+          var isMobile = screenW <= 820 || /Android|iPhone|iPad|iPod|Mobile/i.test(navigator.userAgent);
+          var scale = Math.min(1.0, Math.max(0.12, screenW / targetWidth));
+          var meta = document.getElementById('viewport-meta');
+          if (meta) {
+            meta.setAttribute('content', 'width=' + targetWidth + ', initial-scale=' + scale.toFixed(3) + ', minimum-scale=0.1, maximum-scale=3.0, user-scalable=yes');
+          }
+          if (isMobile) {
+            document.documentElement.classList.add('mobile-zoomed-view');
+            document.documentElement.style.fontSize = '20px';
+          }
+        } catch (e) {}
+      })();
+    </script>
+    <meta name="description" content="RailOptix — AI-Powered Automatic Block Planning System for Indian Railways with intelligent maintenance scheduling" />
+    <title>RailOptix — Indian Railways Maintenance Scheduling</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Noto+Sans+Devanagari:wght@400;600;700&display=swap" rel="stylesheet" />
+  </head>
+  <body>
+    <div id="root"></div>
+    <script type="module" src="/src/main.jsx"></script>
+  </body>
+</html>
