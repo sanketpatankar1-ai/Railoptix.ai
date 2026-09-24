@@ -103,6 +103,8 @@ def run_seed(db: Session) -> dict:
             db.add(u)
             added_users += 1
     counts["users"] = added_users
+    db.commit()
+
 
     # ── Corridors ────────────────────────────────────────
     if db.query(CorridorBlock).count() == 0:
