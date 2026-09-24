@@ -360,12 +360,3 @@ Developed for the **Smart India Hackathon (SIH 2026)** under Problem Statement *
 
 Distributed under the **MIT License**.
 
-## ☁️ Production Database Setup (Supabase)
-
-For production deployment, RailOptix supports managed PostgreSQL instances like **Supabase**.
-
-1. Create a project on Supabase.
-2. Obtain your Postgres connection string (URI).
-3. Set the `DATABASE_URL` environment variable.
-4. Run the SQL schema provided in `SUPABASE_SETUP.md` in your Supabase SQL Editor.
-5. (Optional) Run the database seed to ingest the 58 corridors and 13 demo users.
