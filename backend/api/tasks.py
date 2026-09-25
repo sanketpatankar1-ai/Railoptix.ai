@@ -104,7 +104,7 @@ def get_tasks(
     source_system: Optional[str] = Query(None, alias="sourceSystem"),
     zone: Optional[str] = Query(None),
     page: int = 1,
-    limit: int = 20,
+    limit: int = 1000,
     db: Session = Depends(get_db),
     current_user: User = Depends(get_current_user),
 ):

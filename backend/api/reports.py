@@ -210,6 +210,14 @@ def dashboard_stats(
             "totalWindowMin": sec_window,
         })
 
+    # Recent tasks
+    recent_tasks_q = db.query(MaintenanceTask).filter(MaintenanceTask.status == "pending")
+    if zone_corridor_ids is not None:
+        recent_tasks_q = recent_tasks_q.filter(
+            (MaintenanceTask.zone_code.ilike(z)) | (MaintenanceTask.section_id.in_(zone_corridor_ids))
+        )
+    recent_tasks = recent_tasks_q.order_by(MaintenanceTask.reported_date.desc(), MaintenanceTask.id.desc()).limit(5).all()
+
     return {
         "success": True,
         "data": {
@@ -235,6 +243,19 @@ def dashboard_stats(
                 for s in recent_scheds
             ],
             "availabilityBySection": avail_by_section,
+            "recentTasks": [
+                {
+                    "taskId": t.task_id,
+                    "sectionId": t.section_id,
+                    "sectionName": t.section_name,
+                    "department": t.department,
+                    "defectType": t.defect_type,
+                    "criticality": t.criticality,
+                    "reportedDate": t.reported_date.isoformat() if t.reported_date else None,
+                    "status": t.status,
+                }
+                for t in recent_tasks
+            ],
         },
     }
 

@@ -397,67 +397,108 @@ export default function Dashboard() {
         </div>
       </div>
 
-      {/* Recent Schedules */}
-      <div className="card" style={{ padding: '24px' }}>
-        <h3 style={{ fontSize: '15px', fontWeight: '700', color: '#1F2937', marginBottom: '16px' }}>
-          Recent Block Schedules
-        </h3>
-        {stats?.recentSchedules?.length > 0 ? (
-          <table className="data-table">
-            <thead>
-              <tr>
-                <th>Schedule ID</th>
-                <th>Section</th>
-                <th>Departments</th>
-                <th>Window</th>
-                <th>Status</th>
-              </tr>
-            </thead>
-            <tbody>
-              {stats.recentSchedules.map((s, i) => (
-                <tr
-                  key={i}
-                  onClick={() => navigate(`/schedules?scheduleId=${encodeURIComponent(s.scheduleId)}`)}
-                  style={{ cursor: 'pointer', transition: 'background 0.15s' }}
-                  title="Click to view schedule details in Schedules timeline"
-                  onMouseEnter={(e) => { e.currentTarget.style.background = '#F0F9FF'; }}
-                  onMouseLeave={(e) => { e.currentTarget.style.background = 'transparent'; }}
-                >
-                  <td style={{ fontFamily: 'monospace', fontSize: '13px', fontWeight: '700', color: '#003366' }}>
-                    <div style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
-                      <span>{s.scheduleId}</span>
-                      <FiExternalLink style={{ fontSize: '11px', opacity: 0.7 }} />
-                    </div>
-                  </td>
-                  <td style={{ fontWeight: '500' }}>{s.sectionName || s.sectionId}</td>
-                  <td>
-                    <div style={{ display: 'flex', gap: '4px', flexWrap: 'wrap' }}>
-                      {(s.departments || []).map((d, j) => (
-                        <span key={j} style={{
-                          padding: '2px 8px', borderRadius: '4px', fontSize: '11px', fontWeight: '600',
-                          background: DEPARTMENTS[d]?.bg || '#F3F4F6',
-                          color: DEPARTMENTS[d]?.color || '#6B7280',
-                        }}>{DEPARTMENTS[d]?.label || d}</span>
-                      ))}
-                    </div>
-                  </td>
-                  <td style={{ fontSize: '13px' }}>
-                    {s.assignedWindow?.start ? new Date(s.assignedWindow.start).toLocaleString('en-IN', { day: '2-digit', month: 'short', hour: '2-digit', minute: '2-digit' }) : 'N/A'}
-                  </td>
-                  <td>
-                    <span className={`badge badge-${s.status === 'proposed' ? 'medium' : s.status === 'approved' ? 'low' : 'high'}`}>
-                      {s.status}
-                    </span>
-                  </td>
+      <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '20px' }}>
+        {/* Recent Schedules */}
+        <div className="card" style={{ padding: '24px' }}>
+          <h3 style={{ fontSize: '15px', fontWeight: '700', color: '#1F2937', marginBottom: '16px' }}>
+            Recent Block Schedules
+          </h3>
+          {stats?.recentSchedules?.length > 0 ? (
+            <table className="data-table">
+              <thead>
+                <tr>
+                  <th>Schedule ID</th>
+                  <th>Section</th>
+                  <th>Status</th>
                 </tr>
-              ))}
-            </tbody>
-          </table>
-        ) : (
-          <p style={{ textAlign: 'center', color: '#9CA3AF', padding: '32px', fontSize: '14px' }}>
-            No schedules generated yet. Go to <b>Block Schedules</b> to generate an optimized plan.
-          </p>
-        )}
+              </thead>
+              <tbody>
+                {stats.recentSchedules.map((s, i) => (
+                  <tr
+                    key={i}
+                    onClick={() => navigate(`/schedules?scheduleId=${encodeURIComponent(s.scheduleId)}`)}
+                    style={{ cursor: 'pointer', transition: 'background 0.15s' }}
+                    title="Click to view schedule details in Schedules timeline"
+                    onMouseEnter={(e) => { e.currentTarget.style.background = '#F0F9FF'; }}
+                    onMouseLeave={(e) => { e.currentTarget.style.background = 'transparent'; }}
+                  >
+                    <td style={{ fontFamily: 'monospace', fontSize: '13px', fontWeight: '700', color: '#003366' }}>
+                      <div style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
+                        <span>{s.scheduleId}</span>
+                        <FiExternalLink style={{ fontSize: '11px', opacity: 0.7 }} />
+                      </div>
+                    </td>
+                    <td style={{ fontWeight: '500', fontSize: '13px' }}>{s.sectionName || s.sectionId}</td>
+                    <td>
+                      <span className={`badge badge-${s.status === 'proposed' ? 'medium' : s.status === 'approved' ? 'low' : 'high'}`}>
+                        {s.status}
+                      </span>
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          ) : (
+            <p style={{ textAlign: 'center', color: '#9CA3AF', padding: '32px', fontSize: '14px' }}>
+              No schedules generated yet.
+            </p>
+          )}
+        </div>
+
+        {/* Recent Requests */}
+        <div className="card" style={{ padding: '24px' }}>
+          <h3 style={{ fontSize: '15px', fontWeight: '700', color: '#1F2937', marginBottom: '16px' }}>
+            New Block Requests
+          </h3>
+          {stats?.recentTasks?.length > 0 ? (
+            <table className="data-table">
+              <thead>
+                <tr>
+                  <th>Task ID</th>
+                  <th>Section</th>
+                  <th>Department</th>
+                  <th>Status</th>
+                </tr>
+              </thead>
+              <tbody>
+                {stats.recentTasks.map((t, i) => (
+                  <tr
+                    key={i}
+                    onClick={() => navigate(`/prioritization?taskId=${encodeURIComponent(t.taskId)}`)}
+                    style={{ cursor: 'pointer', transition: 'background 0.15s' }}
+                    title="Click to view task in Prioritization"
+                    onMouseEnter={(e) => { e.currentTarget.style.background = '#F0F9FF'; }}
+                    onMouseLeave={(e) => { e.currentTarget.style.background = 'transparent'; }}
+                  >
+                    <td style={{ fontFamily: 'monospace', fontSize: '13px', fontWeight: '700', color: '#003366' }}>
+                      <div style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
+                        <span>{t.taskId}</span>
+                        <FiExternalLink style={{ fontSize: '11px', opacity: 0.7 }} />
+                      </div>
+                    </td>
+                    <td style={{ fontWeight: '500', fontSize: '13px' }}>{t.sectionName || t.sectionId}</td>
+                    <td>
+                      <span style={{
+                        padding: '2px 8px', borderRadius: '4px', fontSize: '11px', fontWeight: '600',
+                        background: DEPARTMENTS[t.department]?.bg || '#F3F4F6',
+                        color: DEPARTMENTS[t.department]?.color || '#6B7280',
+                      }}>{DEPARTMENTS[t.department]?.label || t.department}</span>
+                    </td>
+                    <td>
+                      <span className="badge badge-medium">
+                        {t.status}
+                      </span>
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          ) : (
+            <p style={{ textAlign: 'center', color: '#9CA3AF', padding: '32px', fontSize: '14px' }}>
+              No pending requests found.
+            </p>
+          )}
+        </div>
       </div>
     </div>
   );
