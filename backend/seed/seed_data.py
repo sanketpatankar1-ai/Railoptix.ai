@@ -111,6 +111,7 @@ def run_seed(db: Session) -> dict:
         for c in ALL_18_ZONE_CORRIDORS:
             db.add(CorridorBlock(**c))
         counts["corridors"] = len(ALL_18_ZONE_CORRIDORS)
+        db.commit() # Commit corridors first to satisfy foreign keys!
 
         # Block windows: 4 evenly distributed daily shifts per corridor per day:
         # 1. Night Block (00:00 - 06:00): 01:00 - 04:30
@@ -177,7 +178,7 @@ def run_seed(db: Session) -> dict:
             traffic_data_list = []
             td_map = {"high": (5, 3), "medium": (3, 2), "low": (1, 1)}
             pax_base, goods_base = td_map[c.get("traffic_density", "medium")]
-            for day_offset in range(7):
+            for day_offset in range(2):
                 d = today - timedelta(days=day_offset)
                 for h in range(24):
                     is_peak = 6 <= h <= 9 or 17 <= h <= 21
